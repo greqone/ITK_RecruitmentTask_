@@ -24,29 +24,6 @@ namespace RecruitmentTask_Omada___
         {
         }
 
-        [Test]
-        public void WebpageAvailable()
-        {
-        }
-
-        [Test]
-        public void WebpageAvailable()
-        {
-        }
-
-        [Test]
-        public void WebpageAvailable()
-        {
-        }
-
-        [Test]
-        public void WebpageAvailable()
-        {
-        }
-
-        [Test]
-        public void WebpageAvailable()
-        {
-        }
+        
     }
 }

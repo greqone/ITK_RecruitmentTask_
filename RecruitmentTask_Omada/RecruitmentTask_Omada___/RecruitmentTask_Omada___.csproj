@@ -68,6 +68,7 @@
     <Compile Include="PageObjects\SearchPage.cs" />
     <Compile Include="PageObjects\SummitArticlePage.cs" />
     <Compile Include="PageObjects\TakedaCasesSubpage.cs" />
+    <Compile Include="PageObjects\Universal.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
