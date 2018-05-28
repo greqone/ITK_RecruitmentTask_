@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RecruitmentTask_Omada___.PageObjects
 {
-    class SearchPage
+    public class SearchPage
     {
         private IWebDriver driver;
 
@@ -16,25 +18,19 @@ namespace RecruitmentTask_Omada___.PageObjects
 
         
         [FindsBy(How = How.ClassName, Using = "search-results__item")]
-        private IWebElement SearchResultsAll;
+        public IReadOnlyCollection<IWebElement> SearchResultsAll;
 
         
-        [FindsBy(How = How.PartialLinkText, Using = "gartner-iam-summit-2016-london")]
-        private IWebElement SummitArticle;
+        [FindsBy(How = How.TagName, Using = "a")]
+        public IReadOnlyCollection<IWebElement> articles;
 
-        public SearchPage SearchForText(string searchPhrase)
-        {
-            [FindsBy(How = How.TagName, Using = "body")]
-            private IWebElement Body;
-            var Result = Assert.IsTrue(Body.Text.Contains(searchPhrase));
-            
-            return Result;
-        }
+        
 
-        public SearchPage GoToSummitArticle()
+        public ArticlePage GoToSummitArticle(string title)
         {
-            SummitArticle.Click();
-            return new SummitArticlePage(driver);
+            var correctTitle = articles.First(art => art.Text == title);
+            correctTitle.Click();
+            return new ArticlePage(driver);
         }
         
         

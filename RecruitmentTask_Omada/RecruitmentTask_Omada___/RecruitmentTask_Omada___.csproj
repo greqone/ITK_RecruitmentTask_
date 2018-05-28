@@ -60,13 +60,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\Helpers.cs" />
     <Compile Include="PageObjects\CasesPage.cs" />
     <Compile Include="PageObjects\ContactPage.cs" />
     <Compile Include="PageObjects\HomePage.cs" />
     <Compile Include="PageObjects\NewsPage.cs" />
     <Compile Include="PageObjects\PrivacyPolicyPage.cs" />
     <Compile Include="PageObjects\SearchPage.cs" />
-    <Compile Include="PageObjects\SummitArticlePage.cs" />
+    <Compile Include="PageObjects\ArticlePage.cs" />
     <Compile Include="PageObjects\TakedaCasesSubpage.cs" />
     <Compile Include="PageObjects\Universal.cs" />
     <Compile Include="UnitTest1.cs" />

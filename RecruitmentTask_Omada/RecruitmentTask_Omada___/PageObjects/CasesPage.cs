@@ -1,12 +1,17 @@
-﻿using System;
+﻿using System.Linq;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RecruitmentTask_Omada___.PageObjects
 {
-    class CasesPage
+    public class CasesPage:Universal
     {
+        public CasesPage(IWebDriver driver) : base(driver)
+        {
+            PageFactory.InitElements(driver, this);
+        }
+
+
     }
 }

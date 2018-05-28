@@ -4,29 +4,30 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace RecruitmentTask_Omada___.PageObjects
 {
-    class HomePage
+    public class HomePage:Universal
     {
-        private IWebDriver driver;
-
-        public HomePage(IWebDriver driver)
+        
+        public HomePage(IWebDriver driver):base(driver)
         {
-            this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
 
 
         [FindsBy(How = How.ClassName, Using = "header__logo")]
-        private IWebElement Logo;
+        public IWebElement Logo;
 
         [FindsByAll]
         [FindsBy(How = How.ClassName, Using = "clientbar__button button--variant2", Priority 0)]
         [FindsBy(How = How.PartialLinkText, Using = "customers", Priority 1)]
-        private IWebElement MoreCustomersButton;
-        
+        public IWebElement MoreCustomersButton;
+
+        [FindsBy(How = How.TagName, Using = "body")]
+        public IWebElement SearchBar;
+
         public void GoToPage()
         {
             driver.Navigate().GoToUrl("https://www.omada.net");
-            var HomepageLoadedCorrectly;
+           /* var HomepageLoadedCorrectly;
             
             if (Logo != null && MoreCustomersButton != null)
             {
@@ -37,13 +38,15 @@ namespace RecruitmentTask_Omada___.PageObjects
                 HomepageLoadedCorrectly = false;
             }
 
-            Assert.That(HomepageLoadedCorrectly == true);
-
+            //Assert.That(HomepageLoadedCorrectly == true);
+            */
             
 
             
         }
 
-       
+        
+
+
     }
 }

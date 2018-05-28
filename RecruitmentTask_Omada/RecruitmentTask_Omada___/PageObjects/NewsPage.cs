@@ -1,34 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
 
 namespace RecruitmentTask_Omada___.PageObjects
 {
-    class NewsPage
+    public class NewsPage:Universal
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-
-        public NewsPage(IWebDriver driver)
+        public NewsPage(IWebDriver driver) : base(driver)
         {
-            this.driver = driver;
-            //wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             PageFactory.InitElements(driver, this);
         }
-        /*
-        [FindsBy(How = How.CssSelector, Using = "#sidebar input[class='s']")]
-        private IWebElement searchText;
 
-        public ResultPage search(string text)
+        [FindsBy(How = How.ClassName, Using = "cases__item")]
+        public IReadOnlyCollection<IWebElement> newsArticles;
+
+        public IWebElement FindNewsArticle(string title)
         {
-            searchText.SendKeys(text);
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#sidebar .searchsubmit"))).Click();
-            return new ResultPage(driver);
-        }*/
+
+            var result = newsArticles.First(article => article.FindElement(By.ClassName("cases__heading")).Text == title);
+            return result;
+        }
+
+        public bool IsArticlePresent(string title)
+        {
+            var result = newsArticles.Any(article => article.FindElement(By.ClassName("cases__heading")).Text == title);
+            return result;
+        }
+
     }
 }

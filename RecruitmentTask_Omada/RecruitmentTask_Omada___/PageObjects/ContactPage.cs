@@ -1,12 +1,36 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.PageObjects;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RecruitmentTask_Omada___.PageObjects
 {
-    class ContactPage
+    public class ContactPage:Universal
     {
+        public ContactPage(IWebDriver driver) : base(driver)
+        {
+            PageFactory.InitElements(driver, this);
+        }
+
+        
+        [FindsBy(How = How.ClassName, Using = "tabmenu__menu-item", Priority = 0)]
+        public IReadOnlyCollection<IWebElement> contactPageButtons;
+
+        public IWebElement FindRegion(string name)
+        {
+            IWebElement region = null;
+            try
+            {
+                region = contactPageButtons.First(button => button.Text == name);
+            }
+            catch (System.Exception)
+            {
+
+               
+            }
+            return region;
+        }
+
     }
 }
