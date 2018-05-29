@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace RecruitmentTask_Omada___.PageObjects
 {
-    public class SearchPage
+    public class SearchResultsPage
     {
         private IWebDriver driver;
 
-        public SearchPage(IWebDriver driver)
+        public SearchResultsPage(IWebDriver driver)
         {
             this.driver = driver;
             PageFactory.InitElements(driver, this);

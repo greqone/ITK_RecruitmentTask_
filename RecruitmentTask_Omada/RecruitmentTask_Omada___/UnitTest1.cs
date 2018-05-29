@@ -1,5 +1,4 @@
 ﻿using System;
-
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -8,53 +7,69 @@ using System.Threading;
 using RecruitmentTask_Omada___.PageObjects;
 using System.Linq;
 using RecruitmentTask_Omada___.Helper;
+using OpenQA.Selenium.Firefox;
 
 namespace RecruitmentTask_Omada___
 {
-    [TestFixture]
-    public class FrontEndTest
+    [TestFixture(typeof(FirefoxDriver))]
+    [TestFixture(typeof(ChromeDriver))]
+    public class FrontEndTest<TWebDriver> where TWebDriver : IWebDriver, new()
     {
-        [OneTimeSetUp]
-        public void Setup()
+        private IWebDriver _driver;
+        [SetUp]
+        public void CreateDriver()
         {
-            home = new HomePage(_driver);
+            this._driver = new TWebDriver();
         }
-        IWebDriver _driver = new ChromeDriver();
+      
         string searchPhrase = "Gartner";
         string articleTitle = "There is Safety in Numbers";
         string summitArticle = "Gartner IAM Summit 2016 - London";
+        //Intentionally did not copy the title 1:1 as it has a typo on "sponser" word
         string correctTitle = "Omada is a sponsor at the Gartner IAM Summit 2016 in London, UK.";
         string correctArticleURL = "https://www.omada.net/en-us/more/news-events/news/gartner-iam-summit-2016-london";
         string region = "U.S West";
+        string privacyPolicyHeader = "WEBSITE PRIVACY POLICY";
        
         HomePage home;
-        SearchPage search;
+        SearchResultsPage search;
         ArticlePage article;
         NewsPage news;
         ContactPage contact;
         PrivacyPolicyPage privacy;
+        CasesPage cases;
+        
 
         //Check page front end availability, could be reused, thus a seperate test
-        [Test]
+        [Test, Order(1)]
         public void WebpageAvailable()
         {
+            //due to tests being run in order:
+            home = new HomePage(_driver);
             home.GoToPage();
-            Assert.That(home.Logo.Displayed, "Homepage logo is not displayed!");
-            Assert.That(home.MoreCustomersButton.Displayed);
+            Assert.Multiple(() =>
+            {
+                Assert.That(home.Logo.Displayed, "Homepage logo is not displayed!");
+                Assert.That(home.MoreCustomersButton.Displayed, "More customers button is not displayed!");
+            });
         }
-
-        [Test]
+        //each test should end on one assert for code readability as well as easier troubleshooting, thus that many tests
+        [Test, Order(2)]
         public void SearchForGartnerArticle()
         {
             
             search = home.SearchArticles(searchPhrase);
-            Assert.That(search.SearchResultsAll.Count > 1);
-            Assert.That(search.SearchResultsAll.Any(article => article.Text.Contains(articleTitle)));
+            Assert.Multiple(() =>
+            {
+                Assert.That(search.SearchResultsAll.Count > 1, "There is 1 or less search results!");
+                Assert.That(search.SearchResultsAll.Any(article => article.Text.Contains(articleTitle)), "Article is not present!");
+            });
+            
 
             
         }
 
-        [Test]
+        [Test, Order(3)]
         public void EnterSummitArticle()
         {
             article = search.GoToSummitArticle(summitArticle);
@@ -63,13 +78,18 @@ namespace RecruitmentTask_Omada___
             Assert.That(pageURL == correctArticleURL, "URL incorrect! Actual URL: " + pageURL);
 
             var pageTitle = _driver.Title;
-            Assert.That(pageTitle == correctTitle, "Title incorrect! Actual title: " + pageTitle);
+            Assert.Multiple(() =>
+            {
+                Assert.That(pageTitle == correctTitle, "Title incorrect! Actual title: " + pageTitle);
 
-            Assert.That(article.articleContent.Displayed, "Article content not displayed!");
+                Assert.That(article.articleContent.Displayed, "Article content not displayed!");
+
+            });
+            
 
         }
 
-        [Test]
+        [Test, Order(4)]
         public void NavigateToNews()
         {
             news = article.GoToNewsPage();
@@ -78,7 +98,7 @@ namespace RecruitmentTask_Omada___
             Assert.That(isArticlePresent, "News article was not found!");
             
         }
-        [Test]
+        [Test, Order(5)]
         public void NavigateToContact()
         {
             home.GoToPage();
@@ -98,17 +118,19 @@ namespace RecruitmentTask_Omada___
 
         }
 
-        [Test]
+        [Test, Order(6)]
         public void PrivacyPolicyLoadsCorrectly()
         {
             var privacyPolicyUrl = home.Privacy.GetAttribute("href");
             ((IJavaScriptExecutor)_driver).ExecuteScript("window.open()");
             _driver.SwitchTo().Window(_driver.WindowHandles.Last());
             _driver.Navigate().GoToUrl(privacyPolicyUrl);
-            //check loaded properly TODO
+            
+            var isHeaderPresent_ = privacy.IsHeaderPresent(privacyPolicyHeader);
+            Assert.That(isHeaderPresent_, "Privacy Policy header was not found!");
         }
 
-        [Test]
+        [Test, Order(7)]
         public void CookieTabClosesCorrectly()
         {
 
@@ -122,15 +144,25 @@ namespace RecruitmentTask_Omada___
 
 
         }
-        [Test]
+        [Test, Order(8)]
         public void CookieTabIsNotPresentAfterReloading()
         {
             _driver.Navigate().Refresh();
             Assert.That(home.CookieTabIsPresent(), "Cookie tab is still present after refreshing!");
         }
 
-        [Test]
-        public void CasesPageLoadsCorrectly()
+        [Test, Order(9)]
+        public void GoToDownloadPDFForm()
+        {
+            home.GoToPage();
+            home.GoToCasesPage();
+            cases.GoToDownloadForm();
+            //TODO check if pdf form is loaded
+
+        }
+
+        [Test, Order(10)]
+        public void DownloadWorksCorrectly()
         {
 
         }

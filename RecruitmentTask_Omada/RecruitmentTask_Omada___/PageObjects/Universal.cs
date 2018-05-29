@@ -25,12 +25,12 @@ namespace RecruitmentTask_Omada___.PageObjects
 
         [FindsByAll]
         [FindsBy(How = How.ClassName, Using = "header__search-input", Priority = 0)]
-        [FindsBy(How = How.Name, Using = "q"), Priority = 1]
+        [FindsBy(How = How.Name, Using = "q", Priority = 1)]
         public IWebElement SearchBox;
 
         [FindsByAll]
         [FindsBy(How = How.ClassName, Using = "header__menulink--function-nav", Priority = 0)]
-        [FindsBy(How = How.PartialLinkText, Using = "contact"), Priority = 1]
+        [FindsBy(How = How.PartialLinkText, Using = "contact", Priority = 1)]
         public IWebElement Contact;
 
         [FindsByAll]
@@ -67,11 +67,11 @@ namespace RecruitmentTask_Omada___.PageObjects
             return new NewsPage(driver);
         }
 
-        public SearchPage SearchArticles(string searchPhrase)
+        public SearchResultsPage SearchArticles(string searchPhrase)
         {
             SearchBox.SendKeys(searchPhrase);
             SearchBox.SendKeys(Keys.Return);
-            return new SearchPage(driver);
+            return new SearchResultsPage(driver);
         }
 
         public ContactPage GoToContactPage()
@@ -91,6 +91,12 @@ namespace RecruitmentTask_Omada___.PageObjects
             var result = !CookieBarContainer.Any();
             return result;
 
+        }
+
+        public CasesPage GoToCasesPage()
+        {
+            Cases.Click();
+            return new CasesPage(driver);
         }
     }
 }

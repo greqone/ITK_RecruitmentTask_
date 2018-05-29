@@ -13,9 +13,15 @@ namespace RecruitmentTask_Omada___.PageObjects
         }
 
         [FindsByAll]
-        [FindsBy(How, How = How.ClassName, Using = "cases__button button--variant2", Priority = 0)]
-        [FindsBy(How, How = How.PartialLinkText, Using = "Download PDF", Priority = 1)]
+        [FindsBy(How = How.ClassName, Using = "cases__button button--variant2", Priority = 0)]
+        [FindsBy(How = How.PartialLinkText, Using = "Download PDF", Priority = 1)]
         public IReadOnlyCollection<IWebElement> downloadButton;
+
+        public void GoToDownloadForm()
+        {
+            downloadButton.First().Click();
+
+        }
 
 
     }

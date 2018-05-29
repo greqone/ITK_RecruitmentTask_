@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RecruitmentTask_Omada___.PageObjects
 {
@@ -12,8 +12,14 @@ namespace RecruitmentTask_Omada___.PageObjects
             PageFactory.InitElements(driver, this);
         }
 
-        [FindsByAll]
-        [FindsBy(How, How = How.ClassName, Using = "text__heading", Priority = 0)]
+        
+        [FindsBy(How = How.ClassName, Using = "text__heading", Priority = 0)]
+        public IReadOnlyCollection<IWebElement> PrivacyPolicyHeader;
 
+        public bool IsHeaderPresent(string header)
+        {
+            var result = PrivacyPolicyHeader.Any(header_ => header_.FindElement(By.TagName("h1")).Text == header);
+            return result;
+        }
     }
 }
