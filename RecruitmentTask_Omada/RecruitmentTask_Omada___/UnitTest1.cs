@@ -15,11 +15,30 @@ namespace RecruitmentTask_Omada___
     [TestFixture(typeof(ChromeDriver))]
     public class FrontEndTest<TWebDriver> where TWebDriver : IWebDriver, new()
     {
+        string downloadPath = "C:\\Temp";
         private IWebDriver _driver;
         [SetUp]
         public void CreateDriver()
         {
-            this._driver = new TWebDriver();
+            //this._driver = new TWebDriver();
+
+            if(typeof(TWebDriver) == typeof(FirefoxDriver))
+            {
+                FirefoxProfile firefoxProfile = new FirefoxProfile();
+                firefoxProfile.SetPreference("browser.download.folderList", 2);
+                firefoxProfile.SetPreference("browser.download.manager.showWhenStarting", false);
+                firefoxProfile.SetPreference("browser.download.dir", downloadPath);
+                firefoxProfile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/zip");
+
+                this._driver = new FirefoxDriver(firefoxProfile);
+            }
+            else
+            {
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.AddUserProfilePreference("download.default_directory", downloadPath);
+
+                this._driver = new ChromeDriver(chromeOptions);
+            }
         }
       
         string searchPhrase = "Gartner";
@@ -38,6 +57,7 @@ namespace RecruitmentTask_Omada___
         ContactPage contact;
         PrivacyPolicyPage privacy;
         CasesPage cases;
+        CasesSubpage casessub;
         
 
         //Check page front end availability, could be reused, thus a seperate test
@@ -152,7 +172,7 @@ namespace RecruitmentTask_Omada___
         }
 
         [Test, Order(9)]
-        public void GoToDownloadPDFForm()
+        public void DownloadPDFFormLoadedCorrectly()
         {
             home.GoToPage();
             home.GoToCasesPage();
@@ -162,8 +182,17 @@ namespace RecruitmentTask_Omada___
         }
 
         [Test, Order(10)]
-        public void DownloadWorksCorrectly()
+        public void CanFillOutPDFForm()
         {
+            casessub.FillOutPDFForm();
+            
+
+        }
+
+        [Test, Order(11)]
+        public void DownloadPDFCorrectly()
+        {
+            casessub.DownloadPDF();
 
         }
         

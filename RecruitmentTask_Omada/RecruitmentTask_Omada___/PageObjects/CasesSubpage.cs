@@ -2,10 +2,13 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Collections.Generic;
+using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
+using System;
 
 namespace RecruitmentTask_Omada___.PageObjects
 {
-    public class CasesSubpage
+    public class CasesSubpage:Universal
     {
         public CasesSubpage(IWebDriver driver) : base(driver)
         {
@@ -39,12 +42,43 @@ namespace RecruitmentTask_Omada___.PageObjects
        
         [FindsBy(How = How.Id, Using = "f_61d4da016ca6e61180dfc4346bad20a4")]
         public IWebElement CountryField;
-
+       
        
         [FindsBy(How = How.Id, Using = "f_3557f512c2a5e61180e4c4346bac7e3c")]
         public IWebElement AcceptCheckBox;
 
         [FindsBy(How = How.Id, Using = "btnSubmit")]
         public IWebElement FinalDownloadPDFButton;
+
+        public void FillOutPDFForm()
+        {
+            JobTitleField.SendKeys("JobTitle");
+            FirstNameField.SendKeys("FirstName");
+            LastNameField.SendKeys("LastName");
+            EmailField.SendKeys("email@address.com");
+            BusinessPhoneField.SendKeys("888888888");
+            CompanyNameField.SendKeys("Best Company!");
+            SelectElement CountryFieldSelect = new SelectElement(CountryField);
+            CountryFieldSelect.SelectByValue("Poland");
+
+            var slider = driver.FindElement(By.Id("bgSlider"));
+            var actualSlider = slider.FindElement(By.Id("Slider"));
+            var width = slider.GetCssValue("width");
+            //driver.FindElement(By.ClassName("cookiebar__button")).Click();
+            actualSlider.Click();
+            var actions = new Actions(driver)
+                .MoveToElement(actualSlider)
+                .Click(actualSlider)
+                .DragAndDropToOffset(actualSlider, Convert.ToInt32(width.Replace("px", string.Empty)), 0)
+                .Build();
+            actions.Perform();
+
+            
+        }
+
+        public void DownloadPDF()
+        {
+            FinalDownloadPDFButton.Click();
+        }
     }
 }
