@@ -12,6 +12,11 @@ namespace RecruitmentTask_Omada___.PageObjects
             PageFactory.InitElements(driver, this);
         }
 
+        [FindsByAll]
+        [FindsBy(How, How = How.ClassName, Using = "cases__button button--variant2", Priority = 0)]
+        [FindsBy(How, How = How.PartialLinkText, Using = "Download PDF", Priority = 1)]
+        public IReadOnlyCollection<IWebElement> downloadButton;
+
 
     }
 }
