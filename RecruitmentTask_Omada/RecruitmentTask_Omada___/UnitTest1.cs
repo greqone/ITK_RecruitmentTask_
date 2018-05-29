@@ -26,7 +26,7 @@ namespace RecruitmentTask_Omada___
             {
                 FirefoxProfile firefoxProfile = new FirefoxProfile();
                 firefoxProfile.SetPreference("browser.download.folderList", 2);
-                firefoxProfile.SetPreference("browser.download.manager.showWhenStarting", false);
+                //firefoxProfile.SetPreference("browser.download.manager.showWhenStarting", false);
                 firefoxProfile.SetPreference("browser.download.dir", downloadPath);
                 firefoxProfile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/zip");
 
@@ -194,6 +194,11 @@ namespace RecruitmentTask_Omada___
         {
             casessub.DownloadPDF();
 
+        }
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            _driver.Dispose();
         }
         
     }
