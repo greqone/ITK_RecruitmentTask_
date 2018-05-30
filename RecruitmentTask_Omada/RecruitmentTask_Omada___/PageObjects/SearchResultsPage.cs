@@ -18,11 +18,11 @@ namespace RecruitmentTask_Omada___.PageObjects
 
         
         [FindsBy(How = How.ClassName, Using = "search-results__item")]
-        public IReadOnlyCollection<IWebElement> SearchResultsAll;
+        public IList<IWebElement> SearchResultsAll;
 
         
         [FindsBy(How = How.TagName, Using = "a")]
-        public IReadOnlyCollection<IWebElement> articles;
+        public IList<IWebElement> articles;
 
         
 

@@ -15,7 +15,7 @@ namespace RecruitmentTask_Omada___.PageObjects
 
         
         [FindsBy(How = How.ClassName, Using = "tabmenu__menu-item", Priority = 0)]
-        public IReadOnlyCollection<IWebElement> contactPageButtons;
+        public IList<IWebElement> contactPageButtons;
 
         public IWebElement FindRegion(string name)
         {

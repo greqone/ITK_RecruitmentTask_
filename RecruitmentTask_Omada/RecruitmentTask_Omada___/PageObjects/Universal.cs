@@ -23,9 +23,8 @@ namespace RecruitmentTask_Omada___.PageObjects
         [FindsBy(How = How.PartialLinkText, Using = "news", Priority = 1)]
         public IWebElement News;
 
-        [FindsByAll]
-        [FindsBy(How = How.ClassName, Using = "header__search-input", Priority = 0)]
-        [FindsBy(How = How.Name, Using = "q", Priority = 1)]
+
+        [FindsBy(How = How.ClassName, Using = "header__search", Priority = 0)]
         public IWebElement SearchBox;
 
         [FindsByAll]
@@ -54,7 +53,7 @@ namespace RecruitmentTask_Omada___.PageObjects
 
 
         [FindsBy(How = How.ClassName, Using = "cookiebar__container", Priority = 0)]
-        public IReadOnlyCollection<IWebElement> CookieBarContainer;
+        public IList<IWebElement> CookieBarContainer;
 
 
         public NewsPage GoToNewsPage()
@@ -69,8 +68,15 @@ namespace RecruitmentTask_Omada___.PageObjects
 
         public SearchResultsPage SearchArticles(string searchPhrase)
         {
-            SearchBox.SendKeys(searchPhrase);
-            SearchBox.SendKeys(Keys.Return);
+            Actions actions = new Actions(driver);
+            actions.MoveToElement(SearchBox);
+            actions.Click();
+            actions.SendKeys(searchPhrase);
+            actions.SendKeys(Keys.Return);
+            actions.Build();
+            actions.Perform();
+            //SearchBox.SendKeys(searchPhrase);
+            //SearchBox.SendKeys(Keys.Return);
             return new SearchResultsPage(driver);
         }
 

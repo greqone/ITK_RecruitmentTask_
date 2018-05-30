@@ -14,7 +14,7 @@ namespace RecruitmentTask_Omada___.PageObjects
 
         
         [FindsBy(How = How.ClassName, Using = "text__heading", Priority = 0)]
-        public IReadOnlyCollection<IWebElement> PrivacyPolicyHeader;
+        public IList<IWebElement> PrivacyPolicyHeader;
 
         public bool IsHeaderPresent(string header)
         {

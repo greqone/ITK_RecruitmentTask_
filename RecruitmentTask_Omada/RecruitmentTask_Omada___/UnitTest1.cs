@@ -17,7 +17,7 @@ namespace RecruitmentTask_Omada___
     {
         string downloadPath = "C:\\Temp";
         private IWebDriver _driver;
-        [SetUp]
+        [OneTimeSetUp]
         public void CreateDriver()
         {
             //this._driver = new TWebDriver();
@@ -26,7 +26,7 @@ namespace RecruitmentTask_Omada___
             {
                 FirefoxProfile firefoxProfile = new FirefoxProfile();
                 firefoxProfile.SetPreference("browser.download.folderList", 2);
-                //firefoxProfile.SetPreference("browser.download.manager.showWhenStarting", false);
+               
                 firefoxProfile.SetPreference("browser.download.dir", downloadPath);
                 firefoxProfile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/zip");
 
@@ -39,6 +39,7 @@ namespace RecruitmentTask_Omada___
 
                 this._driver = new ChromeDriver(chromeOptions);
             }
+            _driver.Manage().Window.Maximize();
         }
       
         string searchPhrase = "Gartner";
@@ -60,7 +61,7 @@ namespace RecruitmentTask_Omada___
         CasesSubpage casessub;
         
 
-        //Check page front end availability, could be reused, thus a seperate test
+        //Check page front end availability
         [Test, Order(1)]
         public void WebpageAvailable()
         {
@@ -70,7 +71,7 @@ namespace RecruitmentTask_Omada___
             Assert.Multiple(() =>
             {
                 Assert.That(home.Logo.Displayed, "Homepage logo is not displayed!");
-                Assert.That(home.MoreCustomersButton.Displayed, "More customers button is not displayed!");
+               // Assert.That(home.MoreCustomersButton.Displayed, "More customers button is not displayed!");
             });
         }
         //each test should end on one assert for code readability as well as easier troubleshooting, thus that many tests
@@ -79,6 +80,7 @@ namespace RecruitmentTask_Omada___
         {
             
             search = home.SearchArticles(searchPhrase);
+            var asd = search.SearchResultsAll.Select(x => x.Text);
             Assert.Multiple(() =>
             {
                 Assert.That(search.SearchResultsAll.Count > 1, "There is 1 or less search results!");

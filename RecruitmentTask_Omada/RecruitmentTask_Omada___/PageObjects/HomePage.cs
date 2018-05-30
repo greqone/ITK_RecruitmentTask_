@@ -16,9 +16,7 @@ namespace RecruitmentTask_Omada___.PageObjects
         [FindsBy(How = How.ClassName, Using = "header__logo")]
         public IWebElement Logo;
 
-        [FindsByAll]
-        [FindsBy(How = How.ClassName, Using = "clientbar__button button--variant2", Priority = 0)]
-        [FindsBy(How = How.PartialLinkText, Using = "customers", Priority = 1)]
+        [FindsBy(How = How.PartialLinkText, Using = "Customers")]
         public IWebElement MoreCustomersButton;
 
         [FindsBy(How = How.TagName, Using = "body")]
@@ -27,19 +25,7 @@ namespace RecruitmentTask_Omada___.PageObjects
         public void GoToPage()
         {
             driver.Navigate().GoToUrl("https://www.omada.net");
-           /* var HomepageLoadedCorrectly;
-            
-            if (Logo != null && MoreCustomersButton != null)
-            {
-                HomepageLoadedCorrectly = true;
-            }
-            else
-            {
-                HomepageLoadedCorrectly = false;
-            }
-
-            //Assert.That(HomepageLoadedCorrectly == true);
-            */
+        
             
 
             

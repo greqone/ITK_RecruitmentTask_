@@ -13,7 +13,7 @@ namespace RecruitmentTask_Omada___.PageObjects
         }
 
         [FindsBy(How = How.ClassName, Using = "cases__item")]
-        public IReadOnlyCollection<IWebElement> newsArticles;
+        public IList<IWebElement> newsArticles;
 
         public IWebElement FindNewsArticle(string title)
         {
